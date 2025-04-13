@@ -26,7 +26,7 @@ public class JwtService {
                 .claims(claims)
                 .signWith(signKey())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60*60))
                 .compact();
         return token;
     }
