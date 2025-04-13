@@ -30,8 +30,11 @@ public class MyFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token=request.getHeader("token");
-        if(token!=null){
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+
             if (jwtService.isValid(token)) {
                 String username = jwtService.getUsername(token);
                 List<Role> roles = jwtService.getRoles(token);
@@ -39,10 +42,10 @@ public class MyFilter extends OncePerRequestFilter {
                 UserDetails userDetails = org.springframework.security.core.userdetails.User
                         .withUsername(username)
                         .authorities(roles)
-                        .password("") // No password needed for JWT-based auth
+                        .password("")
                         .build();
 
-                var auth=new UsernamePasswordAuthenticationToken(
+                var auth = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         roles
@@ -52,10 +55,10 @@ public class MyFilter extends OncePerRequestFilter {
                 System.out.println("Received Token: " + token);
                 System.out.println("Token Validity: " + jwtService.isValid(token));
                 System.out.println("Roles in Token: " + jwtService.getRoles(token));
-
             }
-
         }
+
         filterChain.doFilter(request, response);
     }
+
 }

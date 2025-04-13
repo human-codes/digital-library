@@ -7,6 +7,7 @@ import uz.tridev.digital_library.dto.UserDTO;
 import uz.tridev.digital_library.entity.Role;
 import uz.tridev.digital_library.entity.User;
 import uz.tridev.digital_library.entity.enums.RoleName;
+import uz.tridev.digital_library.repo.RoleRepository;
 import uz.tridev.digital_library.repo.UserRepository;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     public User registerUser(UserDTO dto) {
 
@@ -33,8 +35,7 @@ public class UserService {
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setFullName(dto.getFullName());
-        Role defaultRole = new Role(RoleName.ROLE_USER);
-        user.setRoles(List.of(defaultRole));
+        user.setRoles(roleRepository.findByRoleName(RoleName.ROLE_USER));
 
         return userRepository.save(user);
     }

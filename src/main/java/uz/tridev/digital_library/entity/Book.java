@@ -2,6 +2,7 @@ package uz.tridev.digital_library.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,10 +20,12 @@ public class Book extends BaseEntity {
     private String genre;
     private int pages;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     private Attachment attachment;
 
     private boolean isAvailable;
 
+    @ManyToOne
+    private User borrower;
 
 }

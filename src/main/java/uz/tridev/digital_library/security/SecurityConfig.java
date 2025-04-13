@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,6 +20,7 @@ import uz.tridev.digital_library.filters.MyFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -29,10 +31,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests(requests ->
                 requests
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-//                        .requestMatchers("/", "/store.html", "/static/**", "/js/**", "/css/**", "/images/**").permitAll()
-                        .requestMatchers("/api/login","/api/files/**","/api/categories","/api/users/**","/api/products/**").permitAll()//api/location/check
-                        .requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
-                        .requestMatchers("/api/orders/**").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
@@ -40,7 +38,6 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/webjars/**"
                         ).permitAll()
-                        .requestMatchers("/api/**").authenticated()
                         .anyRequest()
                         .authenticated());
 
