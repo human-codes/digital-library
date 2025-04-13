@@ -113,6 +113,26 @@ Ushbu loyihada foydalanuvchi autentifikatsiyasi va avtorizatsiyasi JWT (JSON Web
 ![GET ALL BOOKS](screenshots/getbooks.png)
 
 - /api/books (POST)
+  
+  Key 1: book
+  Type : Text
+  Value :   {
+              "title": "Qalb ko'zingni och",
+              "author": "Jaloliddin Rumiy",
+              "description": "Fors adabiyoti",
+              "language": "Uzbek",
+              "genre": "qo'llanma",
+              "pages": 120
+            }
+  Content-Type: application/json
+
+  
+  
+  Key 2: file
+  Type : File
+  Value :   upload file
+  Content-Type: multipart/form-data
+
 ![ADD NEW BOOK](screenshots/addbook.png)
 
 - /api/books/{id}/borrow (PUT)
